@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(XSharpMsBuildDir)\XSharp.Default.props" />
+  <PropertyGroup>
+    <Name>FabDBFEd</Name>
+    <ProjectGuid>ce08400d-4a24-4a9e-b023-5a202aae6cab</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FabDBFEd</RootNamespace>
+    <AssemblyName>FabDBFEd</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <Nologo>true</Nologo>
+    <GenerateFullPaths>true</GenerateFullPaths>
+    <Dialect>Core</Dialect>
+    <vo15>false</vo15>
+    <OutputName>FabDBFEd</OutputName>
+    <XSharpProjectversion>2.6.1.0</XSharpProjectversion>
+    <AZ>false</AZ>
+    <CS>false</CS>
+    <LB>false</LB>
+    <NamedArgs>true</NamedArgs>
+    <OVF>false</OVF>
+    <Unsafe>false</Unsafe>
+    <INS>false</INS>
+    <NS>false</NS>
+    <NoStandardDefs>false</NoStandardDefs>
+    <IncludePaths />
+    <StandardDefs />
+    <MemVar>false</MemVar>
+    <Undeclared>false</Undeclared>
+    <InitLocals>false</InitLocals>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'" Label="Configuration">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <EmitDebugInformation>true</EmitDebugInformation>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'" Label="Configuration">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <EmitDebugInformation>false</EmitDebugInformation>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(XSharpMsBuildDir)\XSharp.targets" />
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="XSharp.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=ed555a0467764586">
+      <Name>XSharp.Core</Name>
+      <AssemblyName>XSharp.Core.dll</AssemblyName>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\XSharp\Assemblies\XSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="XSharp.Data, Version=2.6.0.0, Culture=neutral, PublicKeyToken=ed555a0467764586">
+      <Name>XSharp.Data</Name>
+      <AssemblyName>XSharp.Data.dll</AssemblyName>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\XSharp\Assemblies\XSharp.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="XSharp.Rdd, Version=2.0.0.0, Culture=neutral, PublicKeyToken=ed555a0467764586">
+      <Name>XSharp.Rdd</Name>
+      <AssemblyName>XSharp.Rdd.dll</AssemblyName>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\XSharp\Assemblies\XSharp.Rdd.dll</HintPath>
+    </Reference>
+    <Reference Include="XSharp.RT, Version=2.0.0.0, Culture=neutral, PublicKeyToken=ed555a0467764586">
+      <Name>XSharp.RT</Name>
+      <AssemblyName>XSharp.RT.dll</AssemblyName>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\XSharp\Assemblies\XSharp.RT.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+      <Compile Include="BrowseWindow2.Designer.prg">
+      <DependentUpon>BrowseWindow2.prg</DependentUpon>
+    </Compile>
+    <Compile Include="BrowseWindow2.prg">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrowseWindow.Designer.prg">
+      <DependentUpon>BrowseWindow.prg</DependentUpon>
+    </Compile>
+    <Compile Include="BrowseWindow.prg">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DBFStructWindow.Designer.prg">
+      <DependentUpon>DBFStructWindow.prg</DependentUpon>
+    </Compile>
+    <Compile Include="DBFStructWindow.prg">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FabDbDataRow.prg" />
+    <Compile Include="FabDbDataTable.prg" />
+    <Compile Include="FabListView.prg" />
+    <Compile Include="FieldWindow.Designer.prg">
+      <DependentUpon>FieldWindow.prg</DependentUpon>
+    </Compile>
+    <Compile Include="FieldWindow.prg">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Program.prg">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.prg">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow.Designer.prg">
+      <DependentUpon>MainWindow.prg</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.prg">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.prg</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DBFStructWindow.resx">
+      <DependentUpon>DBFStructWindow.prg</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FieldWindow.resx">
+      <DependentUpon>FieldWindow.prg</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BrowseWindow.resx">
+      <DependentUpon>BrowseWindow.prg</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BrowseWindow2.resx">
+      <DependentUpon>BrowseWindow2.prg</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>  
+  <!-- This next bit is required unless the macro used to Import your targets is defined in an MSBuild toolset. -->
+  <ProjectExtensions>
+    <ProjectCapabilities>
+      <ProjectConfigurationsDeclaredAsItems />
+    </ProjectCapabilities>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <PreBuildEvent />
+    <PostBuildEvent />
+    <RunPostBuildEvent />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <PreBuildEvent />
+    <PostBuildEvent />
+    <RunPostBuildEvent />
+  </PropertyGroup>
+</Project>
