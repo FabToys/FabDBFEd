@@ -30,9 +30,7 @@ BEGIN NAMESPACE FabDBFEd
         PRIVATE METHOD quitToolStripMenuItem_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
             SELF:QuitApp()
         RETURN
-        PRIVATE METHOD openToolStripMenuItem_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
-        SELF:OpenDBF()
-        PRIVATE METHOD OpenDBF() AS VOID
+        PRIVATE METHOD OpenDBF1() AS VOID
             LOCAL ofd AS OpenFileDialog
             //
             ofd := OpenFileDialog{}
@@ -45,10 +43,28 @@ BEGIN NAMESPACE FabDBFEd
                 //
                 mdi := BrowseWindow{}
                 IF mdi:OpenDBF( ofd:FileName, SELF:toolStripComboRDD:SelectedItem:ToString() )
-					mdi:MdiParent := SELF
-					mdi:Text := SELF:toolStripComboRDD:SelectedItem:ToString() + " - " + ofd:FileName
-					mdi:Show()
-				ENDIF
+                    mdi:MdiParent := SELF
+                    mdi:Text := SELF:toolStripComboRDD:SelectedItem:ToString() + " - " + ofd:FileName
+                    mdi:Show()
+                ENDIF
+            ENDIF
+        PRIVATE METHOD OpenDBF2() AS VOID
+            LOCAL ofd AS OpenFileDialog
+            //
+            ofd := OpenFileDialog{}
+            ofd:CheckFileExists := TRUE
+            ofd:DefaultExt := "Dbf"
+            ofd:Filter := "Dbf files (*.dbf)|*.dbf|All files (*.*)|*.*"
+            IF ( ofd:ShowDialog() == DialogResult.OK )
+                //
+                LOCAL mdi AS BrowseWindow2
+                //
+                mdi := BrowseWindow2{}
+                IF mdi:OpenDBF( ofd:FileName, SELF:toolStripComboRDD:SelectedItem:ToString() )
+                    mdi:MdiParent := SELF
+                    mdi:Text := SELF:toolStripComboRDD:SelectedItem:ToString() + " - " + ofd:FileName
+                    mdi:Show()
+                ENDIF
             ENDIF
             
         PRIVATE METHOD toolStripButtonQuit_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
@@ -59,9 +75,15 @@ BEGIN NAMESPACE FabDBFEd
                 SELF:Close()
         ENDIF
         PRIVATE METHOD toolStripButton1_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
-            SELF:OpenDBF()
+            SELF:OpenDBF2()
             RETURN
 PRIVATE METHOD Form1_FormClosing(sender AS OBJECT, e AS System.Windows.Forms.FormClosingEventArgs) AS VOID STRICT
+        RETURN
+PRIVATE METHOD inBrowserV1ToolStripMenuItem_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
+        SELF:OpenDBF1()
+        RETURN
+PRIVATE METHOD inBrowserV2ToolStripMenuItem_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
+        SELF:OpenDBF2()
         RETURN
         
     END CLASS 
