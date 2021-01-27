@@ -103,7 +103,9 @@
     <Compile Include="BrowseWindow.prg">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BrowseWindow3.Designer.prg" />
+    <Compile Include="BrowseWindow3.Designer.prg">
+      <DependentUpon>BrowseWindow3.prg</DependentUpon>
+    </Compile>
     <Compile Include="BrowseWindow3.prg">
       <SubType>Form</SubType>
     </Compile>
