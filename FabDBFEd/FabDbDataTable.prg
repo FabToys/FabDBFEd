@@ -14,7 +14,9 @@ USING System.Reflection
 FUNCTION FabDbDataTable() AS FabDbDataTable
 LOCAL oResult := NULL AS OBJECT
 IF CoreDb.Info(DBI_RDD_OBJECT,REF oResult)
+    // Read the current RDD Object (The current WorkArea)
     VAR oRDD := (IRdd) oResult
+    // Create a FabDbDataTable object for this WorkArea
     RETURN FabDbDataTable{oRDD}
 ENDIF
 RETURN NULL
@@ -43,6 +45,7 @@ CLASS FabDbDataTable INHERIT DataTable
         SELF:AcceptChanges()
 
 
+    // Read all the Columns/Fields, and Add a Deleted Column
     PRIVATE METHOD BuildColumns(oRDD AS IRdd) AS VOID
         LOCAL nI AS LONG
         LOCAL aColumns AS DbColumnInfo[]
@@ -74,10 +77,9 @@ CLASS FabDbDataTable INHERIT DataTable
                 aColumns[nI] := oColumn
             NEXT
 		ENDIF
-		//
+		// Add a Deleted Column
 		LOCAL delColumn AS DbDataColumn
 		delColumn := DbDataColumn{ DbColumnInfo{ "Deleted", "C:0", 1,0 } }
-
 		//delColumn:ReadOnly := TRUE
 		SELF:Columns:Add( delColumn )
 		//
@@ -87,6 +89,10 @@ CLASS FabDbDataTable INHERIT DataTable
         RETURN
 
 
+    // Read ALL the records for the current DBF (oRDD) 
+    // Read a Line/Record
+    // Copy all the Fields data to the oData array
+    // and copy the oData to the DataTable (to the Rows collection)
     PRIVATE METHOD AddData(oRDD AS IRdd) AS VOID
         VAR nOld := oRDD:RecNo
         oRDD:GoTop()
