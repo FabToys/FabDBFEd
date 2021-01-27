@@ -53,7 +53,7 @@ BEGIN NAMESPACE FabDBFEd
             LOCAL dtRow AS FabDbDataRow
             // Get the current row
             row := SELF:dbfBrowseView:Rows[ e:RowIndex ]
-            dtRow = (FabDbDataRow)((DataRowView)row.DataBoundItem).Row
+            //dtRow = (FabDbDataRow)((DataRowView)row.DataBoundItem).Row
             //
             //SELF:statusLabel:Text := "RecNo : " + dtRow:RecNo:ToString() + " / " + "Deleted : " + IIF( row:Cells[ "Deleted"]:Value:ToString()=="*", "Yes", "")
         RETURN

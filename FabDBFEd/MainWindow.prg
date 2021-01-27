@@ -65,7 +65,25 @@ BEGIN NAMESPACE FabDBFEd
                     mdi:Text := SELF:toolStripComboRDD:SelectedItem:ToString() + " - " + ofd:FileName
                     mdi:Show()
                 ENDIF
-            ENDIF
+			ENDIF
+        PRIVATE METHOD OpenDBF3() AS VOID
+            LOCAL ofd AS OpenFileDialog
+            //
+            ofd := OpenFileDialog{}
+            ofd:CheckFileExists := TRUE
+            ofd:DefaultExt := "Dbf"
+            ofd:Filter := "Dbf files (*.dbf)|*.dbf|All files (*.*)|*.*"
+            IF ( ofd:ShowDialog() == DialogResult.OK )
+                //
+                LOCAL mdi AS BrowseWindow3
+                //
+                mdi := BrowseWindow3{}
+                IF mdi:OpenDBF( ofd:FileName, SELF:toolStripComboRDD:SelectedItem:ToString() )
+                    mdi:MdiParent := SELF
+                    mdi:Text := SELF:toolStripComboRDD:SelectedItem:ToString() + " - " + ofd:FileName
+                    mdi:Show()
+                ENDIF
+            ENDIF			
             
         PRIVATE METHOD toolStripButtonQuit_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
             SELF:QuitApp()
@@ -85,6 +103,9 @@ PRIVATE METHOD inBrowserV1ToolStripMenuItem_Click(sender AS OBJECT, e AS System.
 PRIVATE METHOD inBrowserV2ToolStripMenuItem_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
         SELF:OpenDBF2()
         RETURN
+PRIVATE METHOD inBrowserV3ToolStripMenuItem_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
+        SELF:OpenDBF3()
+		RETURN
         
     END CLASS 
 END NAMESPACE
