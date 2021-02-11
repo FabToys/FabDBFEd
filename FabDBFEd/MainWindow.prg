@@ -30,43 +30,7 @@ BEGIN NAMESPACE FabDBFEd
         PRIVATE METHOD quitToolStripMenuItem_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
             SELF:QuitApp()
         RETURN
-        PRIVATE METHOD OpenDBF1() AS VOID
-            LOCAL ofd AS OpenFileDialog
-            //
-            ofd := OpenFileDialog{}
-            ofd:CheckFileExists := TRUE
-            ofd:DefaultExt := "Dbf"
-            ofd:Filter := "Dbf files (*.dbf)|*.dbf|All files (*.*)|*.*"
-            IF ( ofd:ShowDialog() == DialogResult.OK )
-                //
-                LOCAL mdi AS BrowseWindow
-                //
-                mdi := BrowseWindow{}
-                IF mdi:OpenDBF( ofd:FileName, SELF:toolStripComboRDD:SelectedItem:ToString() )
-                    mdi:MdiParent := SELF
-                    mdi:Text := SELF:toolStripComboRDD:SelectedItem:ToString() + " - " + ofd:FileName
-                    mdi:Show()
-                ENDIF
-            ENDIF
-        PRIVATE METHOD OpenDBF2() AS VOID
-            LOCAL ofd AS OpenFileDialog
-            //
-            ofd := OpenFileDialog{}
-            ofd:CheckFileExists := TRUE
-            ofd:DefaultExt := "Dbf"
-            ofd:Filter := "Dbf files (*.dbf)|*.dbf|All files (*.*)|*.*"
-            IF ( ofd:ShowDialog() == DialogResult.OK )
-                //
-                LOCAL mdi AS BrowseWindow2
-                //
-                mdi := BrowseWindow2{}
-                IF mdi:OpenDBF( ofd:FileName, SELF:toolStripComboRDD:SelectedItem:ToString() )
-                    mdi:MdiParent := SELF
-                    mdi:Text := SELF:toolStripComboRDD:SelectedItem:ToString() + " - " + ofd:FileName
-                    mdi:Show()
-                ENDIF
-			ENDIF
-        PRIVATE METHOD OpenDBF3() AS VOID
+        PRIVATE METHOD OpenDBF() AS VOID
             LOCAL ofd AS OpenFileDialog
             //
             ofd := OpenFileDialog{}
@@ -83,8 +47,11 @@ BEGIN NAMESPACE FabDBFEd
                     mdi:Text := SELF:toolStripComboRDD:SelectedItem:ToString() + " - " + ofd:FileName
                     mdi:Show()
                 ENDIF
-            ENDIF			
+        ENDIF            
             
+        
+        
+        
         PRIVATE METHOD toolStripButtonQuit_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
             SELF:QuitApp()
         RETURN
@@ -93,19 +60,50 @@ BEGIN NAMESPACE FabDBFEd
                 SELF:Close()
         ENDIF
         PRIVATE METHOD toolStripButton1_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
-            SELF:OpenDBF2()
+            SELF:OpenDBF()
+        RETURN
+        PRIVATE METHOD Form1_FormClosing(sender AS OBJECT, e AS System.Windows.Forms.FormClosingEventArgs) AS VOID STRICT
+        RETURN
+        PRIVATE METHOD openToolStripMenuItem_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
+            SELF:OpenDBF()
+        RETURN
+        PRIVATE METHOD viewToolStripMenuItem_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
+            LOCAL ofd AS OpenFileDialog
+            //
+            ofd := OpenFileDialog{}
+            ofd:Title := "View DBF Structure"
+            ofd:CheckFileExists := TRUE
+            ofd:DefaultExt := "Dbf"
+            ofd:Filter := "Dbf files (*.dbf)|*.dbf|All files (*.*)|*.*"
+            IF ( ofd:ShowDialog() == DialogResult.OK )
+                //
+                LOCAL dbfWin AS DBFStructWindow
+                dbfWin := DBFStructWindow{}
+                dbfWin:Text := "View DBF Structure"
+                IF dbfWin:FillDbStruct( ofd:FileName, SELF:toolStripComboRDD:SelectedItem:ToString(), FALSE )
+                    dbfWin:ShowDialog()
+                ENDIF
+            ENDIF         
             RETURN
-PRIVATE METHOD Form1_FormClosing(sender AS OBJECT, e AS System.Windows.Forms.FormClosingEventArgs) AS VOID STRICT
+PRIVATE METHOD modifyToolStripMenuItem_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
+            LOCAL ofd AS OpenFileDialog
+            //
+            ofd := OpenFileDialog{}
+            ofd:Title := "Modify DBF Structure"
+            ofd:CheckFileExists := TRUE
+            ofd:DefaultExt := "Dbf"
+            ofd:Filter := "Dbf files (*.dbf)|*.dbf|All files (*.*)|*.*"
+            IF ( ofd:ShowDialog() == DialogResult.OK )
+                //
+                LOCAL dbfWin AS DBFStructWindow
+                dbfWin := DBFStructWindow{}
+                dbfWin:Text := "Modify DBF Structure"
+                IF dbfWin:FillDbStruct( ofd:FileName, SELF:toolStripComboRDD:SelectedItem:ToString(), TRUE )
+                    dbfWin:ShowDialog()
+                ENDIF
+            ENDIF         
+            RETURN	
         RETURN
-PRIVATE METHOD inBrowserV1ToolStripMenuItem_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
-        SELF:OpenDBF1()
-        RETURN
-PRIVATE METHOD inBrowserV2ToolStripMenuItem_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
-        SELF:OpenDBF2()
-        RETURN
-PRIVATE METHOD inBrowserV3ToolStripMenuItem_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
-        SELF:OpenDBF3()
-		RETURN
-        
-    END CLASS 
+            
+        END CLASS 
 END NAMESPACE

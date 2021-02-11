@@ -16,6 +16,7 @@ BEGIN NAMESPACE FabDBFEd
         INHERIT System.Windows.Forms.Form
         PRIVATE fields AS List<STRING>
         PRIVATE oDT AS XSharp.DbDataSource
+		PRIVATE alias AS STRING
         
         PUBLIC CONSTRUCTOR() STRICT //BrowseWindow
             InitializeComponent()
@@ -25,23 +26,33 @@ BEGIN NAMESPACE FabDBFEd
         PUBLIC METHOD OpenDBF(fileName AS STRING, rdd AS STRING ) AS LOGIC
             LOCAL row AS DataRow
             LOCAL fieldDef AS STRING
-			LOCAL Result AS LOGIC
+            LOCAL Result AS LOGIC
             // Open the File, and keep it open
-			Result := FALSE
+            Result := FALSE
             // The CLosing event will take care of that
             TRY
-				// Create a Dbf Alias based on fileName AND the current Date Time
-                    DbUseArea(TRUE, rdd,fileName, fileName+DateTime.Now:ToString())
+				alias := fileName+DateTime.Now:ToString()
+                    // Create a Dbf Alias based on fileName AND the current Date Time
+                    DbUseArea(TRUE, rdd,fileName, alias)
+					
                     //
                     oDT := DbDataSource()
-                    // Now attach the DataTable to the DataGridView as DataSource
-                    SELF:dbfBrowseView:DataSource := oDT
                     // Special behaviour for the Deleted Column
-                    //SELF:dbfBrowseView:Columns[0]:ReadOnly := TRUE
-                    //SELF:dbfBrowseView:Columns[0]:Frozen = TRUE
-                    //SELF:dbfBrowseView:Columns[0]:Width := 15
+                    //oDT:ShowDeleted := FALSE
+                    //oDT:ShowRecno := FALSE
+                    // Now attach the DataTable to the DataGridView as DataSource
+                    SELF:bindingSource1:DataSource := oDT
+                    SELF:dbfBrowseView:DataSource := SELF:bindingSource1
                     //
-					Result := TRUE
+                    // Special behaviour for Recno & Column
+                    SELF:dbfBrowseView:Columns[0]:Frozen = TRUE
+                    SELF:dbfBrowseView:Columns[0]:Width := 30
+                    SELF:dbfBrowseView:Columns[0]:DefaultCellStyle:Alignment := DataGridViewContentAlignment.MiddleRight
+                    
+                    SELF:dbfBrowseView:Columns[1]:Frozen = TRUE
+                    SELF:dbfBrowseView:Columns[1]:Width := 45
+                    //
+                Result := TRUE
             CATCH ex AS Exception
                 MessageBox.Show( ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error )
             END TRY
@@ -50,12 +61,12 @@ BEGIN NAMESPACE FabDBFEd
         
         PRIVATE METHOD dbfBrowseView_RowEnter(sender AS OBJECT, e AS System.Windows.Forms.DataGridViewCellEventArgs) AS VOID STRICT
             LOCAL row AS DataGridViewRow
-            LOCAL dtRow AS FabDbDataRow
+            LOCAL rowRecord AS XSharp.DbRecord
             // Get the current row
             row := SELF:dbfBrowseView:Rows[ e:RowIndex ]
-            //dtRow = (FabDbDataRow)((DataRowView)row.DataBoundItem).Row
+            rowRecord = (XSharp.DbRecord)row.DataBoundItem
             //
-            //SELF:statusLabel:Text := "RecNo : " + dtRow:RecNo:ToString() + " / " + "Deleted : " + IIF( row:Cells[ "Deleted"]:Value:ToString()=="*", "Yes", "")
+            SELF:statusLabel:Text := "RecNo : " + rowRecord:RecNo:ToString() + " / " + "Deleted : " + IIF( rowRecord:Deleted , "Yes", "")
         RETURN
         PRIVATE METHOD leftButton_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
         IF SELF:dbfBrowseView:CurrentRow != NULL
@@ -92,102 +103,104 @@ BEGIN NAMESPACE FabDBFEd
             ENDIF
         RETURN
         PRIVATE METHOD appendButton_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
-//            LOCAL lastRecNo AS INT
-//            //
-//                LastRecno := 0
-//            //
-//            LOCAL newRow := oDT:NewRow() AS DataRow
-//            //
-//            oDT:Rows:Add( newRow )
-//            //
-//            LOCAL nextRow := SELF:dbfBrowseView:Rows[SELF:dbfBrowseView:Rows:Count - 1] AS DataGridViewRow
-//            // 
-//            SELF:dbfBrowseView:CurrentCell := nextRow:Cells[0]
+            //            LOCAL lastRecNo AS INT
+            //            //
+            //                LastRecno := 0
+            //            //
+            //            LOCAL newRow := oDT:NewRow() AS DataRow
+            //            //
+            //            oDT:Rows:Add( newRow )
+            //            //
+            //            LOCAL nextRow := SELF:dbfBrowseView:Rows[SELF:dbfBrowseView:Rows:Count - 1] AS DataGridViewRow
+            //            // 
+            //            SELF:dbfBrowseView:CurrentCell := nextRow:Cells[0]
         RETURN
         PRIVATE METHOD deleteButton_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
-//            IF SELF:dbfBrowseView:CurrentRow != NULL
-//                LOCAL isDel := SELF:dbfBrowseView:CurrentRow:Cells["Deleted"]:Value:ToString() AS STRING
-//                IF isDel == "*"
-//                    isDel := " "
-//                ELSE
-//                    isDel := "*"
-//                ENDIF
-//                //
-//                SELF:dbfBrowseView:Columns[0]:Readonly := FALSE
-//                SELF:dbfBrowseView:CurrentRow:Cells["Deleted"]:Value := isDel
-//                
-//                SELF:dbfBrowseView:Columns[0]:Readonly := TRUE
-//                //
-//                LOCAL row AS DataGridViewRow
-//                LOCAL dtRow AS FabDbDataRow
-//                // Get the current row
-//                row := SELF:dbfBrowseView:CurrentRow
-//                dtRow = (FabDbDataRow)((DataRowView)row.DataBoundItem).Row        
-//                SELF:statusLabel:Text := "RecNo : " + dtRow:RecNo:ToString() + " / " + "Deleted : " + IIF( row:Cells[ "Deleted"]:Value:ToString()=="*", "Yes", "")
-//            ENDIF
+            //            IF SELF:dbfBrowseView:CurrentRow != NULL
+            //                LOCAL isDel := SELF:dbfBrowseView:CurrentRow:Cells["Deleted"]:Value:ToString() AS STRING
+            //                IF isDel == "*"
+            //                    isDel := " "
+            //                ELSE
+            //                    isDel := "*"
+            //                ENDIF
+            //                //
+            //                SELF:dbfBrowseView:Columns[0]:Readonly := FALSE
+            //                SELF:dbfBrowseView:CurrentRow:Cells["Deleted"]:Value := isDel
+            //                
+            //                SELF:dbfBrowseView:Columns[0]:Readonly := TRUE
+            //                //
+            //                LOCAL row AS DataGridViewRow
+            //                LOCAL dtRow AS FabDbDataRow
+            //                // Get the current row
+            //                row := SELF:dbfBrowseView:CurrentRow
+            //                dtRow = (FabDbDataRow)((DataRowView)row.DataBoundItem).Row        
+            //                SELF:statusLabel:Text := "RecNo : " + dtRow:RecNo:ToString() + " / " + "Deleted : " + IIF( row:Cells[ "Deleted"]:Value:ToString()=="*", "Yes", "")
+            //            ENDIF
         RETURN
-
+        
         PRIVATE METHOD BrowseWindow_FormClosing(sender AS OBJECT, e AS System.Windows.Forms.FormClosingEventArgs) AS VOID STRICT
-//            //
-//            TRY
-//                FOREACH row AS FabDbDataRow IN SELF:oDT:Rows
-//                    // Internal row State
-//                        SWITCH row:RowState
-//                            CASE DataRowState:Added
-//                                //
-//                                DbAppend()
-//                                FOR VAR i := 1 TO fields:Count
-//                                    //
-//                                    FieldPut( i, row:Item[i+1] )
-//                                NEXT
-//                            CASE DataRowState:Modified
-//                                // Go to the corresponding Record
-//                                DbGoto( row:RecNo )
-//                                // Now, get the Data in the row and push changes
-//                                // First, Deleted ?
-//                                IF row["Deleted"] == "*"
-//                                    DbDelete()
-//                                ELSE
-//                                    DbRecall()
-//                                ENDIF
-//                                // Now, what about Fields Value ?
-//                                FOR VAR i := 1 TO fields:Count
-//                                    //
-//                                    FieldPut( i, row:Item[i+1] )
-//                                NEXT
-//                        END
-//                NEXT
-//            END TRY
+            //            //
+            //            TRY
+            //                FOREACH row AS FabDbDataRow IN SELF:oDT:Rows
+            //                    // Internal row State
+            //                        SWITCH row:RowState
+            //                            CASE DataRowState:Added
+            //                                //
+            //                                DbAppend()
+            //                                FOR VAR i := 1 TO fields:Count
+            //                                    //
+            //                                    FieldPut( i, row:Item[i+1] )
+            //                                NEXT
+            //                            CASE DataRowState:Modified
+            //                                // Go to the corresponding Record
+            //                                DbGoto( row:RecNo )
+            //                                // Now, get the Data in the row and push changes
+            //                                // First, Deleted ?
+            //                                IF row["Deleted"] == "*"
+            //                                    DbDelete()
+            //                                ELSE
+            //                                    DbRecall()
+            //                                ENDIF
+            //                                // Now, what about Fields Value ?
+            //                                FOR VAR i := 1 TO fields:Count
+            //                                    //
+            //                                    FieldPut( i, row:Item[i+1] )
+            //                                NEXT
+            //                        END
+            //                NEXT
+            //            END TRY
             // Close the DBF file
-            DbCloseArea()
-            RETURN
-PRIVATE METHOD dbfBrowseView_CellFormatting(sender AS OBJECT, e AS System.Windows.Forms.DataGridViewCellFormattingEventArgs) AS VOID STRICT
-    // Deleted Column ?
-//    IF (e:ColumnIndex == 0 )
-//        IF SELF:oDT:Rows[ e:RowIndex ]:Item[0] == "*"
-//             e.CellStyle.BackColor = Color.Black
-//        ELSE
-//            // So we don't see the "*" char
-//            e.CellStyle.BackColor = Color.White
-//            e.CellStyle.ForeColor = Color.White
-//        ENDIF
-//    ENDIF
+            DbCloseArea( SELF:alias )
         RETURN
-PRIVATE METHOD dbfBrowseView_EditingControlShowing(sender AS OBJECT, e AS System.Windows.Forms.DataGridViewEditingControlShowingEventArgs) AS VOID STRICT
-//        IF SELF:dbfBrowseView:CurrentCell != NULL .AND. e:Control IS DataGridViewTextBoxEditingControl
-//            // Move caret to the last non space char
-//			LOCAL currentTextBox AS System.Windows.Forms.DataGridViewTextBoxEditingControl
-//            // :( Doesn't seems to work...
-//            currentTextBox := (DataGridViewTextBoxEditingControl)e:Control
-//            //
-//			currentTextBox:Text := currentTextBox:Text:TrimEnd()
-//			currentTextBox:PrepareEditingControlForEdit(false)
-////            VAR moveTo := currentTextBox:Text:TrimEnd():Length
-////            currentTextBox:SelectionStart := 0
-////            currentTextBox:SelectionLength := 1
-////            currentTextBox:Focus()
-////            currentTextBox:ScrollToCaret()
-//        ENDIF
+        PRIVATE METHOD dbfBrowseView_CellFormatting(sender AS OBJECT, e AS System.Windows.Forms.DataGridViewCellFormattingEventArgs) AS VOID STRICT
+            // Deleted Column ?
+            //    IF (e:ColumnIndex == 0 )
+            //        IF SELF:oDT:Rows[ e:RowIndex ]:Item[0] == "*"
+            //             e.CellStyle.BackColor = Color.Black
+            //        ELSE
+            //            // So we don't see the "*" char
+            //            e.CellStyle.BackColor = Color.White
+            //            e.CellStyle.ForeColor = Color.White
+            //        ENDIF
+            //    ENDIF
+        RETURN
+        PRIVATE METHOD dbfBrowseView_EditingControlShowing(sender AS OBJECT, e AS System.Windows.Forms.DataGridViewEditingControlShowingEventArgs) AS VOID STRICT
+            //        IF SELF:dbfBrowseView:CurrentCell != NULL .AND. e:Control IS DataGridViewTextBoxEditingControl
+            //            // Move caret to the last non space char
+            //            LOCAL currentTextBox AS System.Windows.Forms.DataGridViewTextBoxEditingControl
+            //            // :( Doesn't seems to work...
+            //            currentTextBox := (DataGridViewTextBoxEditingControl)e:Control
+            //            //
+            //            currentTextBox:Text := currentTextBox:Text:TrimEnd()
+            //            currentTextBox:PrepareEditingControlForEdit(false)
+            ////            VAR moveTo := currentTextBox:Text:TrimEnd():Length
+            ////            currentTextBox:SelectionStart := 0
+            ////            currentTextBox:SelectionLength := 1
+            ////            currentTextBox:Focus()
+            ////            currentTextBox:ScrollToCaret()
+            //        ENDIF
+            RETURN
+PRIVATE METHOD panel1_Paint(sender AS OBJECT, e AS System.Windows.Forms.PaintEventArgs) AS VOID STRICT
         RETURN
             
         END CLASS 

@@ -118,6 +118,7 @@
     <Compile Include="FabDbDataRow.prg" />
     <Compile Include="FabDbDataTable.prg" />
     <Compile Include="FabListView.prg" />
+    <Compile Include="FabModel.prg" />
     <Compile Include="FieldWindow.Designer.prg">
       <DependentUpon>FieldWindow.prg</DependentUpon>
     </Compile>
@@ -136,6 +137,9 @@
     <Compile Include="Properties\AssemblyInfo.prg">
       <SubType>Code</SubType>
     </Compile>
+    <None Include="RecordModel.prg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
@@ -170,6 +174,11 @@
   <ItemGroup>
     <EmbeddedResource Include="BrowseWindow2.resx">
       <DependentUpon>BrowseWindow2.prg</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BrowseWindow3.resx">
+      <DependentUpon>BrowseWindow3.prg</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <!-- This next bit is required unless the macro used to Import your targets is defined in an MSBuild toolset. -->
