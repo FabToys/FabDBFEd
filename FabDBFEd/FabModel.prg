@@ -111,6 +111,9 @@ BEGIN NAMESPACE FabDBFEd
 					ENDIF
 					RETURN "INT"
 				CASE DbFieldType.Memo        // M
+					IF fieldInfo:IsBinary
+						RETURN "OBJECT"
+					ENDIF
 					RETURN "STRING"
 				CASE DbFieldType.Picture        // 'P'
 				CASE DbFieldType.General        // 'G'
