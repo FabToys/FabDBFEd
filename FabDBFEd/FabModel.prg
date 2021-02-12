@@ -24,7 +24,6 @@ BEGIN NAMESPACE FabDBFEd
 	/// The FabModel class.
 	/// </summary>
 	CLASS FabModel
-		PROPERTY Container AS STRING GET File.ReadAllText( "RecordModel.prg" )
 		
 	PRIVATE fields AS List<RddFieldInfo>
 		
@@ -34,10 +33,22 @@ BEGIN NAMESPACE FabDBFEd
 		
 		METHOD Save( fileName AS STRING ) AS LOGIC
 			LOCAL code AS StringBuilder
-			code := StringBuilder{ SELF:Container }
+			LOCAL dbName AS STRING
 			//
-			VAR dbName := Path.GetFileNameWithoutExtension( fileName )
-			code:Replace( "<@modelclass@>", dbName )
+			dbName := Path.GetFileNameWithoutExtension( fileName )
+			code := StringBuilder{ }
+			//
+			code:Append("USING System")
+			code:Append( Environment.NewLine )
+			code:Append("USING System.Collections.Generic")
+			code:Append( Environment.NewLine )
+			code:Append("USING System.Text")
+			code:Append( Environment.NewLine )
+			code:Append( Environment.NewLine )
+			code:Append( Environment.NewLine )
+			code:Append( "CLASS " )
+			code:Append( dbName )
+			code:Append( Environment.NewLine )
 			//
 			VAR props := StringBuilder{}
 			FOREACH fieldInfo AS RddFieldInfo IN fields
@@ -58,9 +69,10 @@ BEGIN NAMESPACE FabDBFEd
 				props:Append( " AUTO" )
 				props:Append( Environment.NewLine )
 			NEXT
+			code:Append( props )
 			//
-			code:Replace( "<@properties@>", props:ToString())
-			//
+			code:Append( "CONSTRUCTOR()" )
+			code:Append( Environment.NewLine )
 			VAR inits := StringBuilder{}
 			FOREACH fieldInfo AS RddFieldInfo IN fields
 				//
@@ -73,9 +85,14 @@ BEGIN NAMESPACE FabDBFEd
 				inits:Append( "))")
 				inits:Append( Environment.NewLine )
 			NEXT
+			code:Append( inits )
+			code:Append( "RETURN" )
+			code:Append( Environment.NewLine )
 			//
-			code:Replace( "<@inits@>", inits:ToString())
-			//
+			code:Append( "CONSTRUCTOR( itemToCopy AS " )
+			code:Append( dbName )
+			code:Append( " )" )
+			code:Append( Environment.NewLine )
 			inits := StringBuilder{}
 			FOREACH fieldInfo AS RddFieldInfo IN fields
 				//
@@ -85,8 +102,9 @@ BEGIN NAMESPACE FabDBFEd
 				inits:Append( fieldInfo:Name )
 				inits:Append( Environment.NewLine )
 			NEXT
-			//
-			code:Replace( "<@initcopy@>", inits:ToString())
+			code:Append( inits )
+			code:Append( "RETURN" )
+			code:Append( Environment.NewLine )
 			//						
 			LOCAL dest AS StreamWriter
 			dest := StreamWriter{ fileName }
