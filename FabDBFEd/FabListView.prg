@@ -73,7 +73,7 @@ BEGIN NAMESPACE FabDBFEd
 			IF ( li == NULL )
 				RETURN
 			ENDIF
-			ItemIndex = li:Index
+			ItemIndex := li:Index
 			self:SelectedLSI := li:SubItems[0]
 			if (self:SelectedLSI != null)
 				// Only edit the First Column

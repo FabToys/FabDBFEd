@@ -14,7 +14,6 @@ USING XSharp
 BEGIN NAMESPACE FabDBFEd
     PUBLIC PARTIAL CLASS BrowseWindow3 ;
         INHERIT System.Windows.Forms.Form
-        PRIVATE fields AS List<STRING>
         PRIVATE oDT AS XSharp.DbDataSource
 		PRIVATE alias AS STRING
         
@@ -24,8 +23,6 @@ BEGIN NAMESPACE FabDBFEd
         RETURN
         
         PUBLIC METHOD OpenDBF(fileName AS STRING, rdd AS STRING ) AS LOGIC
-            LOCAL row AS DataRow
-            LOCAL fieldDef AS STRING
             LOCAL Result AS LOGIC
             // Open the File, and keep it open
             Result := FALSE
@@ -45,11 +42,11 @@ BEGIN NAMESPACE FabDBFEd
                     SELF:dbfBrowseView:DataSource := SELF:bindingSource1
                     //
                     // Special behaviour for Recno & Column
-                    SELF:dbfBrowseView:Columns[0]:Frozen = TRUE
+                    SELF:dbfBrowseView:Columns[0]:Frozen := TRUE
                     SELF:dbfBrowseView:Columns[0]:Width := 30
                     SELF:dbfBrowseView:Columns[0]:DefaultCellStyle:Alignment := DataGridViewContentAlignment.MiddleRight
                     
-                    SELF:dbfBrowseView:Columns[1]:Frozen = TRUE
+                    SELF:dbfBrowseView:Columns[1]:Frozen := TRUE
                     SELF:dbfBrowseView:Columns[1]:Width := 45
                     //
                 Result := TRUE
@@ -64,7 +61,7 @@ BEGIN NAMESPACE FabDBFEd
             LOCAL rowRecord AS XSharp.DbRecord
             // Get the current row
             row := SELF:dbfBrowseView:Rows[ e:RowIndex ]
-            rowRecord = (XSharp.DbRecord)row.DataBoundItem
+            rowRecord := (XSharp.DbRecord)row.DataBoundItem
             //
             SELF:statusLabel:Text := "RecNo : " + rowRecord:RecNo:ToString() + " / " + "Deleted : " + IIF( rowRecord:Deleted , "Yes", "")
         RETURN

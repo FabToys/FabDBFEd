@@ -165,11 +165,11 @@ PRIVATE METHOD dbfBrowseView_CellFormatting(sender AS OBJECT, e AS System.Window
     // Deleted Column ?
     IF (e:ColumnIndex == 0 )
         IF SELF:oDT:Rows[ e:RowIndex ]:Item[0] == "*"
-             e.CellStyle.BackColor = Color.Black
+             e.CellStyle.BackColor := Color.Black
         ELSE
             // So we don't see the "*" char
-            e.CellStyle.BackColor = Color.White
-            e.CellStyle.ForeColor = Color.White
+            e.CellStyle.BackColor := Color.White
+            e.CellStyle.ForeColor := Color.White
         ENDIF
     ENDIF
         RETURN

@@ -52,6 +52,7 @@ BEGIN NAMESPACE FabDBFEd
         
         
         
+        
         PRIVATE METHOD toolStripButtonQuit_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
             SELF:QuitApp()
         RETURN
@@ -84,8 +85,8 @@ BEGIN NAMESPACE FabDBFEd
                     dbfWin:ShowDialog()
                 ENDIF
             ENDIF         
-            RETURN
-PRIVATE METHOD modifyToolStripMenuItem_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
+        RETURN
+        PRIVATE METHOD modifyToolStripMenuItem_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
             LOCAL ofd AS OpenFileDialog
             //
             ofd := OpenFileDialog{}
@@ -102,8 +103,7 @@ PRIVATE METHOD modifyToolStripMenuItem_Click(sender AS OBJECT, e AS System.Event
                     dbfWin:ShowDialog()
                 ENDIF
             ENDIF         
-            RETURN	
-        RETURN
+            RETURN
             
         END CLASS 
 END NAMESPACE

@@ -33,10 +33,12 @@ BEGIN NAMESPACE FabDBFEd
 		
 		METHOD Save( fileName AS STRING ) AS LOGIC
 			LOCAL code AS StringBuilder
+			LOCAL indent AS StringBuilder
 			LOCAL dbName AS STRING
 			//
 			dbName := Path.GetFileNameWithoutExtension( fileName )
 			code := StringBuilder{ }
+			indent := StringBuilder{}
 			//
 			code:Append("USING System")
 			code:Append( Environment.NewLine )
@@ -50,9 +52,11 @@ BEGIN NAMESPACE FabDBFEd
 			code:Append( dbName )
 			code:Append( Environment.NewLine )
 			//
+			indent:Append( STRING{' ', 3} )
 			VAR props := StringBuilder{}
 			FOREACH fieldInfo AS RddFieldInfo IN fields
 				//
+				props:Append( indent )
 				props:Append( "// " )
 				props:Append( fieldInfo:Name )
 				props:Append( "," )
@@ -62,6 +66,7 @@ BEGIN NAMESPACE FabDBFEd
 				props:Append( "," )
 				props:Append( fieldInfo:Decimals )
 				props:Append( Environment.NewLine )
+				props:Append( indent )
 				props:Append( "PROPERTY " )
 				props:Append( fieldInfo:Name )
 				props:Append( " AS " )
@@ -70,12 +75,14 @@ BEGIN NAMESPACE FabDBFEd
 				props:Append( Environment.NewLine )
 			NEXT
 			code:Append( props )
+			code:Append( Environment.NewLine )
 			//
 			code:Append( "CONSTRUCTOR()" )
 			code:Append( Environment.NewLine )
 			VAR inits := StringBuilder{}
 			FOREACH fieldInfo AS RddFieldInfo IN fields
 				//
+				inits:Append( indent )
 				inits:Append( "SELF:" )
 				inits:Append( fieldInfo:Name )
 				inits:Append( " := FieldGet(FieldPos(" )
@@ -88,6 +95,7 @@ BEGIN NAMESPACE FabDBFEd
 			code:Append( inits )
 			code:Append( "RETURN" )
 			code:Append( Environment.NewLine )
+			code:Append( Environment.NewLine )
 			//
 			code:Append( "CONSTRUCTOR( itemToCopy AS " )
 			code:Append( dbName )
@@ -96,6 +104,7 @@ BEGIN NAMESPACE FabDBFEd
 			inits := StringBuilder{}
 			FOREACH fieldInfo AS RddFieldInfo IN fields
 				//
+				inits:Append( indent )
 				inits:Append( "SELF:" )
 				inits:Append( fieldInfo:Name )
 				inits:Append( " := itemToCopy:" )
@@ -104,6 +113,10 @@ BEGIN NAMESPACE FabDBFEd
 			NEXT
 			code:Append( inits )
 			code:Append( "RETURN" )
+			code:Append( Environment.NewLine )
+			code:Append( Environment.NewLine )
+			//
+			code:Append( "END CLASS" )
 			code:Append( Environment.NewLine )
 			//						
 			LOCAL dest AS StreamWriter
@@ -149,7 +162,7 @@ BEGIN NAMESPACE FabDBFEd
 				OTHERWISE
 					RETURN "OBJECT"
 			END SWITCH		
-			RETURN "OBJECT"
+			//RETURN "OBJECT"
 			
 			END CLASS
 END NAMESPACE // FabDBFEd
