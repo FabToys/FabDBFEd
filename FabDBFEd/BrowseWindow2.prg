@@ -20,11 +20,12 @@ BEGIN NAMESPACE FabDBFEd
         PUBLIC CONSTRUCTOR() STRICT //BrowseWindow
             InitializeComponent()
             SELF:statusLabel:Text := ""
+			SELF:fields := List<STRING>{}
         RETURN
         
         PUBLIC METHOD OpenDBF(fileName AS STRING, rdd AS STRING ) AS LOGIC
-            LOCAL row AS DataRow
-            LOCAL fieldDef AS STRING
+            //LOCAL row AS DataRow
+            //LOCAL fieldDef AS STRING
 			LOCAL Result AS LOGIC
             // Open the File, and keep it open
 			Result := FALSE
@@ -38,7 +39,7 @@ BEGIN NAMESPACE FabDBFEd
                     SELF:dbfBrowseView:DataSource := oDT
                     // Special behaviour for the Deleted Column
                     SELF:dbfBrowseView:Columns[0]:ReadOnly := TRUE
-                    SELF:dbfBrowseView:Columns[0]:Frozen = TRUE
+                    SELF:dbfBrowseView:Columns[0]:Frozen := TRUE
                     SELF:dbfBrowseView:Columns[0]:Width := 15
                     //
 					Result := TRUE
@@ -53,7 +54,7 @@ BEGIN NAMESPACE FabDBFEd
             LOCAL dtRow AS FabDbDataRow
             // Get the current row
             row := SELF:dbfBrowseView:Rows[ e:RowIndex ]
-            dtRow = (FabDbDataRow)((DataRowView)row.DataBoundItem).Row
+            dtRow := (FabDbDataRow)((DataRowView)row.DataBoundItem).Row
             //
             SELF:statusLabel:Text := "RecNo : " + dtRow:RecNo:ToString() + " / " + "Deleted : " + IIF( row:Cells[ "Deleted"]:Value:ToString()=="*", "Yes", "")
         RETURN
@@ -92,9 +93,9 @@ BEGIN NAMESPACE FabDBFEd
             ENDIF
         RETURN
         PRIVATE METHOD appendButton_Click(sender AS OBJECT, e AS System.EventArgs) AS VOID STRICT
-            LOCAL lastRecNo AS INT
+            //LOCAL lastRecNo AS INT
             //
-                LastRecno := 0
+                //LastRecno := 0
             //
             LOCAL newRow := oDT:NewRow() AS DataRow
             //
@@ -122,7 +123,7 @@ BEGIN NAMESPACE FabDBFEd
                 LOCAL dtRow AS FabDbDataRow
                 // Get the current row
                 row := SELF:dbfBrowseView:CurrentRow
-                dtRow = (FabDbDataRow)((DataRowView)row.DataBoundItem).Row        
+                dtRow := (FabDbDataRow)((DataRowView)row.DataBoundItem).Row        
                 SELF:statusLabel:Text := "RecNo : " + dtRow:RecNo:ToString() + " / " + "Deleted : " + IIF( row:Cells[ "Deleted"]:Value:ToString()=="*", "Yes", "")
             ENDIF
         RETURN
@@ -145,7 +146,7 @@ BEGIN NAMESPACE FabDBFEd
                                 DbGoto( row:RecNo )
                                 // Now, get the Data in the row and push changes
                                 // First, Deleted ?
-                                IF row["Deleted"] == "*"
+                                IF row["Deleted"]:ToString() == "*"
                                     DbDelete()
                                 ELSE
                                     DbRecall()
@@ -156,7 +157,8 @@ BEGIN NAMESPACE FabDBFEd
                                     FieldPut( i, row:Item[i+1] )
                                 NEXT
                         END
-                NEXT
+				NEXT
+			CATCH
             END TRY
             // Close the DBF file
             DbCloseArea()
@@ -164,7 +166,7 @@ BEGIN NAMESPACE FabDBFEd
 PRIVATE METHOD dbfBrowseView_CellFormatting(sender AS OBJECT, e AS System.Windows.Forms.DataGridViewCellFormattingEventArgs) AS VOID STRICT
     // Deleted Column ?
     IF (e:ColumnIndex == 0 )
-        IF SELF:oDT:Rows[ e:RowIndex ]:Item[0] == "*"
+        IF SELF:oDT:Rows[ e:RowIndex ]:Item[0]:ToString() == "*"
              e.CellStyle.BackColor := Color.Black
         ELSE
             // So we don't see the "*" char

@@ -95,8 +95,8 @@ BEGIN NAMESPACE FabDBFEd
                     ENDIF
                     IF lBinary
                         VAR currentCell := SELF:dbfBrowseView:CurrentCell
-                        LOCAL fieldBytes AS BYTE[]
-                        LOCAL lOk AS LOGIC
+                        LOCAL fieldBytes := NULL AS BYTE[]
+                        LOCAL lOk := FALSE AS LOGIC
                         TRY
                             fieldBytes := (BYTE[])currentCell:Value
                             IF fieldBytes:Length > 0 
@@ -106,7 +106,6 @@ BEGIN NAMESPACE FabDBFEd
                             lOk := FALSE
                         END TRY
                         IF lOk
-                            
                             VAR editor := HexaEditor{}
                             editor:SetBytes( fieldBytes  )
                             editor:ShowDialog()

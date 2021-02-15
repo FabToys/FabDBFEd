@@ -213,7 +213,7 @@ BEGIN NAMESPACE FabDBFEd
 								DbGoto( RecNo )
 								// Now, get the Data in the row and push changes
 								// First, Deleted ?
-								IF row["Deleted"] == "*"
+								IF row["Deleted"]:ToString() == "*"
 									DbDelete()
 								ELSE
 									DbRecall()
@@ -228,6 +228,7 @@ BEGIN NAMESPACE FabDBFEd
 						END
 					ENDIF
 				NEXT
+			CATCH
 			END TRY
 			// Close the DBF file
 			DbCloseArea()
