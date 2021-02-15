@@ -70,16 +70,6 @@
       <AssemblyName>Microsoft.CSharp.dll</AssemblyName>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="PresentationCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <Name>PresentationCore</Name>
-      <SpecificVersion>False</SpecificVersion>
-      <AssemblyName>PresentationCore.dll</AssemblyName>
-    </Reference>
-    <Reference Include="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <Name>PresentationFramework</Name>
-      <SpecificVersion>False</SpecificVersion>
-      <AssemblyName>PresentationFramework.dll</AssemblyName>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -89,32 +79,10 @@
       <AssemblyName>System.Design.dll</AssemblyName>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="System.Xaml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-      <Name>System.Xaml</Name>
-      <SpecificVersion>False</SpecificVersion>
-      <AssemblyName>System.Xaml.dll</AssemblyName>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="UIAutomationProvider, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <Name>UIAutomationProvider</Name>
-      <SpecificVersion>False</SpecificVersion>
-      <AssemblyName>UIAutomationProvider.dll</AssemblyName>
-    </Reference>
-    <Reference Include="WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <Name>WindowsBase</Name>
-      <SpecificVersion>False</SpecificVersion>
-      <AssemblyName>WindowsBase.dll</AssemblyName>
-    </Reference>
-    <Reference Include="WindowsFormsIntegration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <Name>WindowsFormsIntegration</Name>
-      <AssemblyName>WindowsFormsIntegration.dll</AssemblyName>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\WindowsFormsIntegration.dll</HintPath>
-    </Reference>
     <Reference Include="XSharp.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=ed555a0467764586">
       <Name>XSharp.Core</Name>
       <AssemblyName>XSharp.Core.dll</AssemblyName>
