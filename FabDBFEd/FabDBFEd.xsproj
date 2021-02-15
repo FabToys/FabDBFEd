@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FabDBFEd</RootNamespace>
     <AssemblyName>FabDBFEd</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <Nologo>true</Nologo>
     <GenerateFullPaths>true</GenerateFullPaths>
     <Dialect>Core</Dialect>
@@ -29,6 +29,11 @@
     <MemVar>false</MemVar>
     <Undeclared>false</Undeclared>
     <InitLocals>false</InitLocals>
+    <StartupObject />
+    <ApplicationIcon />
+    <VulcanCompatibleResources>False</VulcanCompatibleResources>
+    <NoWin32Manifest>False</NoWin32Manifest>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'" Label="Configuration">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -52,12 +57,12 @@
   </PropertyGroup>
   <Import Project="$(XSharpMsBuildDir)\XSharp.targets" />
   <ItemGroup>
-    <Reference Include="ICSharpCode.TextEditor, Version=4.2.0.0, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a">
-      <Name>ICSharpCode.TextEditor</Name>
-      <AssemblyName>ICSharpCode.TextEditor.dll</AssemblyName>
+    <Reference Include="ICSharpCode.TextEditorEx, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <Name>ICSharpCode.TextEditorEx</Name>
+      <AssemblyName>ICSharpCode.TextEditorEx.dll</AssemblyName>
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
-      <HintPath>..\packages\ICSharpCode.TextEditor.Extended.4.2.4\lib\net45\ICSharpCode.TextEditor.dll</HintPath>
+      <HintPath>..\packages\ICSharpCode.TextEditorEx.1.1.0\lib\net40\ICSharpCode.TextEditorEx.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <Name>Microsoft.CSharp</Name>
@@ -65,14 +70,51 @@
       <AssemblyName>Microsoft.CSharp.dll</AssemblyName>
     </Reference>
     <Reference Include="mscorlib" />
+    <Reference Include="PresentationCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <Name>PresentationCore</Name>
+      <SpecificVersion>False</SpecificVersion>
+      <AssemblyName>PresentationCore.dll</AssemblyName>
+    </Reference>
+    <Reference Include="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <Name>PresentationFramework</Name>
+      <SpecificVersion>False</SpecificVersion>
+      <AssemblyName>PresentationFramework.dll</AssemblyName>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>System.Design</Name>
+      <AssemblyName>System.Design.dll</AssemblyName>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Xaml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <Name>System.Xaml</Name>
+      <SpecificVersion>False</SpecificVersion>
+      <AssemblyName>System.Xaml.dll</AssemblyName>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="UIAutomationProvider, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <Name>UIAutomationProvider</Name>
+      <SpecificVersion>False</SpecificVersion>
+      <AssemblyName>UIAutomationProvider.dll</AssemblyName>
+    </Reference>
+    <Reference Include="WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <Name>WindowsBase</Name>
+      <SpecificVersion>False</SpecificVersion>
+      <AssemblyName>WindowsBase.dll</AssemblyName>
+    </Reference>
+    <Reference Include="WindowsFormsIntegration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <Name>WindowsFormsIntegration</Name>
+      <AssemblyName>WindowsFormsIntegration.dll</AssemblyName>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\WindowsFormsIntegration.dll</HintPath>
+    </Reference>
     <Reference Include="XSharp.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=ed555a0467764586">
       <Name>XSharp.Core</Name>
       <AssemblyName>XSharp.Core.dll</AssemblyName>
@@ -137,6 +179,12 @@
     <Compile Include="FieldWindow.prg">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HexaEditor.Designer.prg">
+      <DependentUpon>HexaEditor.prg</DependentUpon>
+    </Compile>
+    <Compile Include="HexaEditor.prg">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MemoEditor.Designer.prg">
       <DependentUpon>MemoEditor.prg</DependentUpon>
     </Compile>
@@ -169,6 +217,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainWindow.resx">
@@ -203,6 +252,11 @@
   <ItemGroup>
     <EmbeddedResource Include="MemoEditor.resx">
       <DependentUpon>MemoEditor.prg</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="HexaEditor.resx">
+      <DependentUpon>HexaEditor.prg</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <!-- This next bit is required unless the macro used to Import your targets is defined in an MSBuild toolset. -->

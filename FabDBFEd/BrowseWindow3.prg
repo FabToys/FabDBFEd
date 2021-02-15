@@ -86,24 +86,49 @@ BEGIN NAMESPACE FabDBFEd
 			VAR pos := FieldPos( currentCol:Name )
 			IF pos > 0
 				VAR infoType := DbFieldInfo( DBS_TYPE, pos )
-				IF infoType == "M" 
+				VAR sType := infoType:ToString()
+				IF sType:SubString(0,1) == "M" 
 					VAR flags := DbFieldInfo( DBS_FLAGS, pos )
-					IF flags:IsBinary
-						RETURN
+					VAR lBinary := flags:IsBinary
+					IF sType:IndexOf(":") > 0
+						lBinary := ( sType:Substring(sType:IndexOf(":")+1) == "B" )
 					ENDIF
-					VAR currentCell := SELF:dbfBrowseView:CurrentCell	
-					VAR text := currentCell:FormattedValue:ToString()
-					
-					VAR editor := MemoEditor{}
-					editor:textEditor:Text := text
-					editor:ShowDialog()
-					
-					SELF:dbfBrowseView:BeginInvoke(	;
-					(MethodInvoker){ => 
-					SELF:dbfBrowseView:EndEdit() 
-					currentCell:Value := editor:TextEditor:Text 
-					} )
-					
+					IF lBinary
+						VAR currentCell := SELF:dbfBrowseView:CurrentCell
+						LOCAL fieldBytes AS BYTE[]
+						LOCAL lOk AS LOGIC
+						TRY
+							fieldBytes := (BYTE[])currentCell:Value
+							IF fieldBytes:Length > 0 
+								lOk := TRUE
+							ENDIF
+						CATCH
+							lOk := FALSE
+						END TRY
+						IF lOk
+							
+							VAR editor := HexaEditor{}
+							editor:SetBytes( fieldBytes  )
+							editor:ShowDialog()
+						ENDIF
+						SELF:dbfBrowseView:EndEdit() 
+					ELSE
+						VAR currentCell := SELF:dbfBrowseView:CurrentCell	
+						VAR text := currentCell:Value:ToString()
+						
+						VAR editor := MemoEditor{}
+						editor:textEditor:Text := text
+						editor:HasChanged := FALSE
+						editor:ShowDialog()
+						
+						SELF:dbfBrowseView:BeginInvoke(	;
+						(MethodInvoker){ => 
+						SELF:dbfBrowseView:EndEdit() 
+						IF editor:HasChanged
+							currentCell:Value := editor:TextEditor:Text 
+						ENDIF
+						} )
+					ENDIF
 				ENDIF
 			ENDIF
 			
