@@ -14,15 +14,15 @@ USING XSharp
 BEGIN NAMESPACE FabDBFEd
     PUBLIC PARTIAL CLASS BrowseWindow3 ;
         INHERIT System.Windows.Forms.Form
-        PRIVATE oDT AS XSharp.DbDataSource
-        PRIVATE alias AS STRING
+    PRIVATE oDT AS XSharp.DbDataSource
+    PRIVATE alias AS STRING
         
         PUBLIC CONSTRUCTOR() STRICT //BrowseWindow
             InitializeComponent()
             SELF:statusLabel:Text := ""
         RETURN
         
-        PUBLIC METHOD OpenDBF(fileName AS STRING, rdd AS STRING ) AS LOGIC
+        PUBLIC METHOD OpenDBF(fileName AS STRING, rdd AS STRING, readOnly AS LOGIC ) AS LOGIC
             LOCAL Result AS LOGIC
             // Open the File, and keep it open
             Result := FALSE
@@ -30,8 +30,7 @@ BEGIN NAMESPACE FabDBFEd
             TRY
                     alias := fileName+DateTime.Now:ToString()
                     // Create a Dbf Alias based on fileName AND the current Date Time
-                    DbUseArea(TRUE, rdd,fileName, alias)
-                    
+                    DbUseArea(TRUE, rdd,fileName, alias, TRUE, readOnly)
                     //
                     oDT := DbDataSource()
                     // Special behaviour for the Deleted Column
@@ -41,17 +40,34 @@ BEGIN NAMESPACE FabDBFEd
                     SELF:bindingSource1:DataSource := oDT
                     SELF:dbfBrowseView:DataSource := SELF:bindingSource1
                     //
-                    // Special behaviour for Recno & Column
-                    SELF:dbfBrowseView:Columns[0]:Frozen := TRUE
-                    SELF:dbfBrowseView:Columns[0]:Width := 30
-                    SELF:dbfBrowseView:Columns[0]:DefaultCellStyle:Alignment := DataGridViewContentAlignment.MiddleRight
-                    
-                    SELF:dbfBrowseView:Columns[1]:Frozen := TRUE
-                    SELF:dbfBrowseView:Columns[1]:Width := 45
+                    LOCAL rPos := -1, dPos := -1 AS INT
+                    LOCAL i := 0 AS INT
+                    FOREACH  var oneCol in SELF:dbfBrowseView:Columns
+                        var col := (DataGridViewColumn) oneCol 
+                        IF (String.Compare( col:Name, "recno", true )==0)
+                            rPos := i
+                        ELSE
+                            IF (String.Compare( col:Name, "deleted", true )==0)
+                                dPos := i
+                            ENDIF
+                        ENDIF
+                        i++
+                    NEXT
+                    if ( rPos >= 0 )
+                        // Special behaviour for Recno & Deleted
+                        SELF:dbfBrowseView:Columns[rPos]:Frozen := TRUE
+                        SELF:dbfBrowseView:Columns[rPos]:Width := 30
+                        SELF:dbfBrowseView:Columns[rPos]:DefaultCellStyle:Alignment := DataGridViewContentAlignment.MiddleRight
+                    ENDIF
+                    if ( dPos >= 0 )
+                        SELF:dbfBrowseView:Columns[dPos]:Frozen := TRUE
+                        SELF:dbfBrowseView:Columns[dPos]:Width := 45
+                    ENDIF
                     //
                 Result := TRUE
             CATCH ex AS Exception
                 MessageBox.Show( ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error )
+                DbCloseArea()
             END TRY
         RETURN Result
         
@@ -94,22 +110,22 @@ BEGIN NAMESPACE FabDBFEd
                         lBinary := ( sType:Substring(sType:IndexOf(":")+1) == "B" )
                     ENDIF
                     IF lBinary
-                        VAR currentCell := SELF:dbfBrowseView:CurrentCell
-                        LOCAL fieldBytes := NULL AS BYTE[]
-                        LOCAL lOk := FALSE AS LOGIC
-                        TRY
-                            fieldBytes := (BYTE[])currentCell:Value
-                            IF fieldBytes:Length > 0 
-                                lOk := TRUE
+                            VAR currentCell := SELF:dbfBrowseView:CurrentCell
+                            LOCAL fieldBytes := NULL AS BYTE[]
+                            LOCAL lOk := FALSE AS LOGIC
+                            TRY
+                                    fieldBytes := (BYTE[])currentCell:Value
+                                    IF fieldBytes:Length > 0 
+                                        lOk := TRUE
+                                ENDIF
+                            CATCH
+                                lOk := FALSE
+                            END TRY
+                            IF lOk
+                                VAR editor := HexaEditor{}
+                                editor:SetBytes( fieldBytes  )
+                                editor:ShowDialog()
                             ENDIF
-                        CATCH
-                            lOk := FALSE
-                        END TRY
-                        IF lOk
-                            VAR editor := HexaEditor{}
-                            editor:SetBytes( fieldBytes  )
-                            editor:ShowDialog()
-                        ENDIF
                         SELF:dbfBrowseView:EndEdit() 
                     ELSE
                         VAR currentCell := SELF:dbfBrowseView:CurrentCell    

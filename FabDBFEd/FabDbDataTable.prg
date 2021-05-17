@@ -120,7 +120,3 @@ CLASS FabDbDataTable INHERIT DataTable
     
 
 END CLASS
-
-
-
-

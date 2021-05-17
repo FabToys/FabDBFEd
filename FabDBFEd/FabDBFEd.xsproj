@@ -14,7 +14,7 @@
     <Dialect>Core</Dialect>
     <vo15>false</vo15>
     <OutputName>FabDBFEd</OutputName>
-    <XSharpProjectversion>2.7.0.0</XSharpProjectversion>
+    <XSharpProjectversion>2.8.0.11</XSharpProjectversion>
     <AZ>false</AZ>
     <CS>false</CS>
     <LB>false</LB>
@@ -174,6 +174,7 @@
     <Compile Include="Properties\Resources.Designer.prg">
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ToolStripCheckedBox.prg" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
@@ -182,6 +183,8 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
     </None>
+    <None Include="Resources\CheckBoxChecked_16x.png" />
+    <None Include="Resources\CheckBoxUnchecked_16x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
