@@ -14,7 +14,7 @@
     <Dialect>Core</Dialect>
     <vo15>false</vo15>
     <OutputName>FabDBFEd</OutputName>
-    <XSharpProjectversion>2.8.0.11</XSharpProjectversion>
+    <XSharpProjectversion>2.13.2.2</XSharpProjectversion>
     <AZ>false</AZ>
     <CS>false</CS>
     <LB>false</LB>
@@ -70,10 +70,24 @@
       <AssemblyName>Microsoft.CSharp.dll</AssemblyName>
     </Reference>
     <Reference Include="mscorlib" />
+    <Reference Include="SQLiteRDD, Version=1.0.8276.36070, Culture=neutral, PublicKeyToken=null">
+      <Name>SQLiteRDD</Name>
+      <AssemblyName>SQLiteRDD.dll</AssemblyName>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+      <HintPath>SQLiteRDD.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.SQLite, Version=1.0.115.5, Culture=neutral, PublicKeyToken=db937bc2d44ff139">
+      <Name>System.Data.SQLite</Name>
+      <AssemblyName>System.Data.SQLite.dll</AssemblyName>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+      <HintPath>System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>System.Design</Name>
       <AssemblyName>System.Design.dll</AssemblyName>
@@ -193,41 +207,57 @@
   <ItemGroup>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.prg</DependentUpon>
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DBFStructWindow.resx">
       <DependentUpon>DBFStructWindow.prg</DependentUpon>
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FieldWindow.resx">
       <DependentUpon>FieldWindow.prg</DependentUpon>
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BrowseWindow.resx">
       <DependentUpon>BrowseWindow.prg</DependentUpon>
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BrowseWindow2.resx">
       <DependentUpon>BrowseWindow2.prg</DependentUpon>
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BrowseWindow3.resx">
       <DependentUpon>BrowseWindow3.prg</DependentUpon>
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MemoEditor.resx">
       <DependentUpon>MemoEditor.prg</DependentUpon>
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="HexaEditor.resx">
       <DependentUpon>HexaEditor.prg</DependentUpon>
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <!-- This next bit is required unless the macro used to Import your targets is defined in an MSBuild toolset. -->
