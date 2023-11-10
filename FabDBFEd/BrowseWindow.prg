@@ -198,7 +198,7 @@ BEGIN NAMESPACE FabDBFEd
 					irs := Convert.ToInt32( row["_FabDBFED_"] )
 					IF ( irs != DataRowState.Unchanged )
 						SWITCH irs
-							CASE DataRowState:Added
+							CASE DataRowState.Added
 								//
 								DbAppend()
 								FOR VAR i := 1 TO fields:Count
@@ -207,7 +207,7 @@ BEGIN NAMESPACE FabDBFEd
 									//
 									FieldPut( i, fieldValue )
 								NEXT
-							CASE DataRowState:Modified
+							CASE DataRowState.Modified
 								// Go to the corresponding Record
 								RecNo := Convert.ToInt32(row["RecNo"])
 								DbGoto( RecNo )
