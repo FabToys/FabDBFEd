@@ -39,10 +39,10 @@ BEGIN NAMESPACE FabDBFEd
 			ofd:Filter := "Dbf files (*.dbf)|*.dbf|All files (*.*)|*.*"
 			IF ( ofd:ShowDialog() == DialogResult.OK )
 				//
-				LOCAL mdi AS BrowseWindow3
+				LOCAL mdi AS BrowseWindow2
 				//
-				mdi := BrowseWindow3{}
-				IF mdi:OpenDBF( ofd:FileName, SELF:toolStripComboRDD:SelectedItem:ToString(), SELF:toolStripButtonReadOnly:Checked )
+				mdi := BrowseWindow2{}
+				IF mdi:OpenDBF( ofd:FileName, SELF:toolStripComboRDD:SelectedItem:ToString() )
 					mdi:MdiParent := SELF
 					mdi:Text := SELF:toolStripComboRDD:SelectedItem:ToString() + " - " + ofd:FileName
 					mdi:Show()
