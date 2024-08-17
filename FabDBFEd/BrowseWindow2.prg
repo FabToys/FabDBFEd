@@ -158,7 +158,8 @@ BEGIN NAMESPACE FabDBFEd
 						NEXT
 					END
 				NEXT
-			CATCH
+            Catch
+                NOP
 			END TRY
 			// Close the DBF file
 			DbCloseArea()
