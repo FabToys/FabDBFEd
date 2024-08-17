@@ -36,7 +36,7 @@ BEGIN NAMESPACE FabDBFEd
 			LOCAL isOk := FALSE AS LOGIC
 			LOCAL result :=0 AS INT
 			//
-			IF int32.TryParse( SELF:lengthTextBox:Text, REF result )
+			If int32.TryParse( Self:lengthTextBox:Text, Ref result )
 				isOk := ( Result > 0 )
 			ENDIF
 			//
