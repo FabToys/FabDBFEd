@@ -74,7 +74,7 @@ BEGIN NAMESPACE FabDBFEd
 						row["RecNo"] := AsString( RecNo() )
 						row["Deleted"] := IIF( Deleted(), "*", " " )
 						// Put data into the columns in the row
-						FOR VAR i := 1 UPTO fields.Count
+						FOR VAR i := 1 UPTO fields:Count
 							row[ fields[i-1] ] := AsString(FieldGet(i))
 						NEXT
 						// Add the row to the table
@@ -91,7 +91,7 @@ BEGIN NAMESPACE FabDBFEd
 				SELF:dbfBrowseView:Columns["RecNo"]:Visible := FALSE
 				Result := TRUE
 			CATCH ex AS Exception
-				MessageBox.Show( ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error )
+				MessageBox.Show( ex:Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error )
 				
 			END TRY
 		RETURN Result
@@ -101,7 +101,7 @@ BEGIN NAMESPACE FabDBFEd
 			LOCAL row AS DataGridViewRow
 			// Get the current row
 			row := SELF:dbfBrowseView:Rows[ e:RowIndex ]
-			FOR VAR i := 1 UPTO fields.Count
+			FOR VAR i := 1 UPTO fields:Count
 				LOCAL lvi AS ListViewItem
 				lvi := SELF:listViewFields:Items[ i-1 ]
 				lvi:Text := row:Cells[ fields[i-1] ]:Value:ToString()

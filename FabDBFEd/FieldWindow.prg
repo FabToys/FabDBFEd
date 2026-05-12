@@ -74,7 +74,7 @@ BEGIN NAMESPACE FabDBFEd
 			LOCAL isOk := TRUE AS LOGIC
 			//
 			toCheck := toCheck:Trim()
-			IF ( toCheck.Length > 0 ) .AND. ( toCheck.Length <= 10 )
+			IF ( toCheck:Length > 0 ) .AND. ( toCheck:Length <= 10 )
 					//
 					FOR VAR i := 0 TO toCheck:Length-1
 						LOCAL car := toCheck[i] AS CHAR

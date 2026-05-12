@@ -104,7 +104,7 @@ CLASS FabDbDataTable INHERIT DataTable
             FOR VAR nI := 1 TO nFldCount
                 oData[nI+1] := oRDD:GetValue(nI)
             NEXT
-            SELF:_AddRow(oData,oRDD:RecNo)
+            SELF:_AddRow(oData,(int)oRDD:RecNo)
             oRDD:Skip(1)
         ENDDO
         oRDD:GoTo(nOld)
